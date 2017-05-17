@@ -7,6 +7,8 @@
 //
 
 #import "ViewController.h"
+#import "MethodLogManager.h"
+#import "Cat.h"
 
 @interface ViewController ()
 
@@ -17,6 +19,24 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
+    
+    [MethodLogManager logAllMethodForClass:Cat.class callback:^(LogMethod *method) {
+        NSLog(@"log method:%@", method);
+    }];
+    
+    Cat *cat = [[Cat alloc] init];
+    [cat fee];
+    NSLog(@"catName:%@", [cat name]);
+    [cat eat:@"mice"];
+    
+    cat.catBlock = ^{
+        NSLog(@"this is cat block");
+    };
+    
+    NSLog(@"cat.catBlock:%@", cat.catBlock);
+    cat.catBlock();
+    
+    NSLog(@"%@", [Cat classFunc:10]);
 }
 
 
